@@ -6,7 +6,7 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char *font = "mono:pixelsize=14:antialias=true:autohint=true";
-static char *font2[] = { "JoyPixels:pixelsize=10:antialias=true:autohint=true" };
+static char *font2[] = { "JoyPixels:pixelsize=10:antialias=true:autohint=true", "DejaVu Sans:pixelsize=14:antialias=true:autohint=true" };
 static int borderpx = 2;
 
 /*
@@ -164,6 +164,7 @@ static unsigned int defaultattr = 11;
 ResourcePref resources[] = {
 		{ "font",         STRING,  &font },
 		{ "fontalt0",     STRING,  &font2[0] },
+		{ "fontalt1",     STRING,  &font2[1] },
 		{ "color0",       STRING,  &colorname[0] },
 		{ "color1",       STRING,  &colorname[1] },
 		{ "color2",       STRING,  &colorname[2] },
@@ -203,8 +204,8 @@ ResourcePref resources[] = {
  */
 static MouseShortcut mshortcuts[] = {
 	/* button               mask            string */
-	{ Button4,              XK_NO_MOD,      "\031" },
-	{ Button5,              XK_NO_MOD,      "\005" },
+	/* { Button4,              XK_NO_MOD,      "\031" }, */
+	/* { Button5,              XK_NO_MOD,      "\005" }, */
 };
 
 /* Internal keyboard shortcuts. */
@@ -213,10 +214,10 @@ static MouseShortcut mshortcuts[] = {
 
 MouseKey mkeys[] = {
 	/* button               mask            function        argument */
-	{ Button4,              ShiftMask,      kscrollup,      {.i =  1} },
-	{ Button5,              ShiftMask,      kscrolldown,    {.i =  1} },
-	{ Button4,              MODKEY,         kscrollup,      {.i =  1} },
-	{ Button5,              MODKEY,         kscrolldown,    {.i =  1} },
+	/* { Button4,              ShiftMask,      kscrollup,      {.i =  1} }, */
+	/* { Button5,              ShiftMask,      kscrolldown,    {.i =  1} }, */
+	{ Button4,              XK_NO_MOD,         kscrollup,      {.i =  3} },
+	{ Button5,              XK_NO_MOD,         kscrolldown,    {.i =  3} },
 	{ Button4,              TERMMOD,        zoom,           {.f =  +1} },
 	{ Button5,              TERMMOD,        zoom,           {.f =  -1} },
 };
@@ -238,6 +239,8 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
 	{ TERMMOD,              XK_Next,        zoom,           {.f = -1} },
 	{ MODKEY,               XK_Home,        zoomreset,      {.f =  0} },
+	{ XK_NO_MOD,            XK_Home,        kscrollup,      {.i =  0} },
+	{ XK_NO_MOD,            XK_End,         kscrolldown,    {.i =  0} },
 	{ MODKEY,               XK_c,           clipcopy,       {.i =  0} },
 	{ ShiftMask,            XK_Insert,      clippaste,      {.i =  0} },
 	{ MODKEY,               XK_v,           clippaste,      {.i =  0} },

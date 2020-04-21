@@ -36,7 +36,7 @@
 #define ESC_ARG_SIZ   16
 #define STR_BUF_SIZ   ESC_BUF_SIZ
 #define STR_ARG_SIZ   ESC_ARG_SIZ
-#define HISTSIZE      2000
+#define HISTSIZE      (1<<15)
 
 /* macros */
 #define IS_SET(flag)		((term.mode & (flag)) != 0)
@@ -121,6 +121,8 @@ typedef struct {
 
 	int alt;
 } Selection;
+
+int scroll = 0;
 
 /* Internal representation of the screen */
 typedef struct {
@@ -1081,6 +1083,8 @@ kscrolldown(const Arg* a)
 
 	if (n < 0)
 		n = term.row + n;
+	else if (n == 0)
+		n = HISTSIZE;
 
 	if (n > term.scr)
 		n = term.scr;
@@ -1099,9 +1103,16 @@ kscrollup(const Arg* a)
 
 	if (n < 0)
 		n = term.row + n;
+	else if (n == 0)
+		n = HISTSIZE;
+
+	if (term.scr > HISTSIZE-n)
+		n = HISTSIZE-term.scr;
 
 	if (term.scr <= HISTSIZE-n) {
 		term.scr += n;
+		if (term.scr > scroll)
+			term.scr = scroll;
 		selscroll(0, n);
 		tfulldirt();
 	}
@@ -1160,6 +1171,10 @@ tscrollup(int orig, int n, int copyhist)
 		term.line[i] = term.line[i+n];
 		term.line[i+n] = temp;
 	}
+
+	scroll += n;
+	if (scroll > HISTSIZE)
+		scroll = HISTSIZE;
 
 	selscroll(orig, -n);
 }
