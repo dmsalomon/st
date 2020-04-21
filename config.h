@@ -6,10 +6,14 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char *font = "mono:pixelsize=14:antialias=true:autohint=true";
+<<<<<<< HEAD
 static char *font2[] = {
     "emoji:pixelsize=10:antialias=true:autohint=true",
     "DejaVu Sans:pixelsize=14:antialias=true:autohint=true",
 };
+=======
+static char *font2[] = { "JoyPixels:pixelsize=10:antialias=true:autohint=true", "DejaVu Sans:pixelsize=14:antialias=true:autohint=true" };
+>>>>>>> 61af132 (fix scrolling past the top of the page)
 static int borderpx = 2;
 
 /*
